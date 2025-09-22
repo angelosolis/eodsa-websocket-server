@@ -148,6 +148,20 @@ io.on('connection', (socket) => {
     io.to(`media:${data.eventId}`).emit('performance:status', data);
   });
 
+  // Handle music cue updates (onstage/offstage)
+  socket.on('performance:music_cue', (data) => {
+    console.log(`🎵 Music cue broadcast: ${data.performanceId} -> ${data.musicCue}`);
+
+    // Broadcast to all relevant rooms
+    io.to(`event:${data.eventId}`).emit('performance:music_cue', data);
+    io.to(`judges:${data.eventId}`).emit('performance:music_cue', data);
+    io.to(`sound:${data.eventId}`).emit('performance:music_cue', data);
+    io.to(`backstage:${data.eventId}`).emit('performance:music_cue', data);
+    io.to(`announcer:${data.eventId}`).emit('performance:music_cue', data);
+    io.to(`registration:${data.eventId}`).emit('performance:music_cue', data);
+    io.to(`media:${data.eventId}`).emit('performance:music_cue', data);
+  });
+
   // Handle event control commands
   socket.on('event:control', (data) => {
     console.log(`🎯 Event control: ${data.action} for event ${data.eventId}`);
