@@ -176,6 +176,19 @@ io.on('connection', (socket) => {
     io.to(`media:${data.eventId}`).emit('entry:music_updated', data);
   });
 
+  // Handle entry video link updates (virtual)
+  socket.on('entry:video_updated', (data) => {
+    console.log(`📹 Entry video updated: ${data.entryId}`);
+
+    io.to(`event:${data.eventId}`).emit('entry:video_updated', data);
+    io.to(`judges:${data.eventId}`).emit('entry:video_updated', data);
+    io.to(`sound:${data.eventId}`).emit('entry:video_updated', data);
+    io.to(`backstage:${data.eventId}`).emit('entry:video_updated', data);
+    io.to(`announcer:${data.eventId}`).emit('entry:video_updated', data);
+    io.to(`registration:${data.eventId}`).emit('entry:video_updated', data);
+    io.to(`media:${data.eventId}`).emit('entry:video_updated', data);
+  });
+
   // Handle event control commands
   socket.on('event:control', (data) => {
     console.log(`🎯 Event control: ${data.action} for event ${data.eventId}`);
