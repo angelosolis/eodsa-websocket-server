@@ -162,6 +162,20 @@ io.on('connection', (socket) => {
     io.to(`media:${data.eventId}`).emit('performance:music_cue', data);
   });
 
+  // Handle entry music updates (upload/replace)
+  socket.on('entry:music_updated', (data) => {
+    console.log(`🎶 Entry music updated: ${data.entryId}`);
+
+    // Broadcast to all relevant rooms
+    io.to(`event:${data.eventId}`).emit('entry:music_updated', data);
+    io.to(`judges:${data.eventId}`).emit('entry:music_updated', data);
+    io.to(`sound:${data.eventId}`).emit('entry:music_updated', data);
+    io.to(`backstage:${data.eventId}`).emit('entry:music_updated', data);
+    io.to(`announcer:${data.eventId}`).emit('entry:music_updated', data);
+    io.to(`registration:${data.eventId}`).emit('entry:music_updated', data);
+    io.to(`media:${data.eventId}`).emit('entry:music_updated', data);
+  });
+
   // Handle event control commands
   socket.on('event:control', (data) => {
     console.log(`🎯 Event control: ${data.action} for event ${data.eventId}`);
