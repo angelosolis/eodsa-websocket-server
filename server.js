@@ -54,6 +54,11 @@ const io = new Server(server, {
 
 // Health check endpoint for Railway
 server.on('request', (req, res) => {
+  // Let Socket.io handle its own endpoints
+  if (req.url && req.url.startsWith('/socket.io')) {
+    return;
+  }
+
   if (req.url === '/health' && req.method === 'GET') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ 
@@ -64,9 +69,14 @@ server.on('request', (req, res) => {
     return;
   }
   
-  // Default response
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('EODSA WebSocket Server - Running');
+  if (req.method === 'GET' && (req.url === '/' || req.url === '')) {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('EODSA WebSocket Server - Running');
+    return;
+  }
+
+  res.writeHead(404, { 'Content-Type': 'text/plain' });
+  res.end('Not Found');
 });
 
 // Socket.io event handling
