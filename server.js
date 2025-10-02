@@ -18,7 +18,9 @@ const getAllowedOrigins = () => {
   // Default origins for development and production
   const origins = [
     'http://localhost:3000',
-    'https://localhost:3000'
+    'https://localhost:3000',
+    'https://eodsa.vercel.app',
+    'https://www.avalondance.co.za'
   ];
   
   // Add Railway and Vercel domains if available
